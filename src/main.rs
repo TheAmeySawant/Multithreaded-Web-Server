@@ -1,6 +1,6 @@
 use std::{
     fs,
-    io::{BufRead, BufReader, Error, ErrorKind::ResourceBusy, Write},
+    io::{BufRead, BufReader, Write},
     net::{TcpListener, TcpStream},
     thread,
     time::Duration,
@@ -10,8 +10,8 @@ use multithreaded_web_server::ThreadPool;
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").expect("Network Binding Failed!");
 
-    //As long as size is positive, this will work
-    let pool = ThreadPool::new(4).unwrap();
+    //As long as size is positive, ThreadPool will be created.
+    let pool = ThreadPool::new(8).unwrap();
     for stream in listener.incoming() {
         let stream = stream.expect("TCPStream lost, maybe connection lost");
 
@@ -22,6 +22,8 @@ fn main() {
         // thread::spawn(|| {
         //     handle_connection(stream);
         // });
+
+        // handle_connection(stream);
 
         // println!("Connection Established!");
     }
